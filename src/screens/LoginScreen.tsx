@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ValidatedInput from '../components/ValidatedInput';
+import TextInputCustom from '../components/TextInputCustom';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 
@@ -49,7 +49,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
-        <ValidatedInput
+        <TextInputCustom
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
@@ -57,7 +57,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           autoCapitalize="none"
           error={errors.email}
         />
-        <ValidatedInput
+        <TextInputCustom
           placeholder="Password"
           value={password}
           onChangeText={setPassword}

@@ -1,12 +1,17 @@
-
 import React from 'react';
-import {View, TextInput, Text, StyleSheet, TextInputProps} from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  TextInputProps,
+} from 'react-native';
 
-interface ValidatedInputProps extends TextInputProps {
+interface TextInputCustomProps extends TextInputProps {
   error?: string;
 }
 
-const ValidatedInput: React.FC<ValidatedInputProps> = ({
+const TextInputCustom: React.FC<TextInputCustomProps> = ({
   error,
   style,
   ...props
@@ -45,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ValidatedInput;
+export default TextInputCustom;
