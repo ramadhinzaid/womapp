@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import TextInputCustom from '../components/TextInputCustom';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -39,9 +40,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (validate()) {
-      navigation.replace('Home');
+      try {
+        const dummyToken = 'dummy-access-token';
+        await AsyncStorage.setItem('access_token', dummyToken);
+        navigation.replace('Home');
+      } catch (e) {
+        console.error('Failed to save access token.', e);
+      }
     }
   };
 
@@ -78,6 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   title: {
