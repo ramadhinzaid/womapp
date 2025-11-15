@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 
-type SplashScreenNavigationProp = StackNavigationProp<
+type SplashScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'Splash'
 >;
