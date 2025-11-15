@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Alert, StatusBar } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ValidatedInput from '../components/ValidatedInput';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
 
-const LoginScreen = () => {
+type LoginScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
+
+interface LoginScreenProps {
+  navigation: LoginScreenNavigationProp;
+}
+
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
@@ -29,33 +39,14 @@ const LoginScreen = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (validate()) {
-      try {
-        // Generate a simple token-like string
-        // const token = btoa(`${email}:${password}:${new Date().getTime()}`);
-
-        // Save to AsyncStorage
-        await AsyncStorage.setItem('@user_token', email + password);
-
-        Alert.alert(
-          'Login Berhasil',
-          'Token berhasil dibuat dan disimpan di local storage.',
-        );
-
-        // Clear form
-        setEmail('');
-        setPassword('');
-      } catch (e) {
-        console.log(e);
-        Alert.alert('Error', 'Gagal menyimpan data ke local storage.');
-      }
+      navigation.replace('Home');
     }
   };
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <ValidatedInput
@@ -87,7 +78,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 20,
   },
   title: {
