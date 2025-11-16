@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { RootState } from '../store';
 import { RootStackParamList } from '../navigation/AppNavigator';
 
@@ -12,10 +12,19 @@ interface UserDetailScreenProps {
 }
 
 const UserDetailScreen: React.FC<UserDetailScreenProps> = ({ route }) => {
+  const navigation = useNavigation();
   const { id } = route.params;
   const user = useSelector((state: RootState) =>
-    state.users.users.find(u => u.id === id)
+    state.users.users.find(u => u.id === id),
   );
+
+  useLayoutEffect(() => {
+    if (user) {
+      navigation.setOptions({
+        title: user.name,
+      });
+    }
+  }, [navigation, user]);
 
   if (!user) {
     return (
@@ -40,8 +49,12 @@ const UserDetailScreen: React.FC<UserDetailScreenProps> = ({ route }) => {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Address</Text>
-          <Text style={styles.text}>{user.address.street}, {user.address.suite}</Text>
-          <Text style={styles.text}>{user.address.city}, {user.address.zipcode}</Text>
+          <Text style={styles.text}>
+            {user.address.street}, {user.address.suite}
+          </Text>
+          <Text style={styles.text}>
+            {user.address.city}, {user.address.zipcode}
+          </Text>
         </View>
 
         <View style={styles.section}>

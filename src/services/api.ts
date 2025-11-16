@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { User } from '../types';
 
-import { API_BASE_URL } from 'react-native-dotenv';
+// import { API_BASE_URL } from 'react-native-dotenv';
 
-const USERS_URL = `${API_BASE_URL}/users`;
+const USERS_URL = `https://jsonplaceholder.typicode.com/users`;
 
 export const fetchUsersAPI = async (): Promise<User[]> => {
   try {
