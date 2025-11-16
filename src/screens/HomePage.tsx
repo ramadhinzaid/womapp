@@ -4,13 +4,7 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import { View, FlatList, StyleSheet, Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchUsers } from '../store/usersSlice';
@@ -96,11 +90,17 @@ const HomePage: React.FC<HomePageProps> = ({ navigation }) => {
       <FlatList
         data={users}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleUserPress(item.id)}>
-            <UserItem user={item} />
-          </TouchableOpacity>
+          <UserItem user={item} onPress={() => handleUserPress(item.id)} />
         )}
         keyExtractor={item => item.id.toString()}
+        contentContainerStyle={users.length === 0 && styles.emptyContainer}
+        ListEmptyComponent={
+          !loading && !error ? (
+            <View style={styles.emptyStateContainer}>
+              <Text style={styles.emptyStateText}>No users found.</Text>
+            </View>
+          ) : null
+        }
         onRefresh={handleRefresh}
         refreshing={isRefreshing}
       />
@@ -111,6 +111,20 @@ const HomePage: React.FC<HomePageProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyStateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyStateText: {
+    fontSize: 18,
+    color: '#888',
   },
 });
 
