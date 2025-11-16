@@ -34,6 +34,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
     if (!password) {
       newErrors.password = 'Password tidak boleh kosong';
+    } else if (password.length < 8) {
+      newErrors.password = 'Password minimal 8 karakter';
+    } else if (!/[A-Z]/.test(password)) {
+      newErrors.password = 'Password harus mengandung setidaknya satu huruf kapital';
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      newErrors.password = 'Password harus mengandung setidaknya satu simbol';
     }
 
     setErrors(newErrors);
